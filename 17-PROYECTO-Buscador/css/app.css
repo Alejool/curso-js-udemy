@@ -1,0 +1,120 @@
+body {
+    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+    font-family: 'Staatliches', cursive;
+}
+html {
+    font-size: 62.5%;
+}
+h1 {
+    font-family: 'Staatliches', cursive;
+    font-size: 5rem;
+    padding: 3rem 0 1rem 0;
+    margin: 0;
+    
+}
+.contenedor {
+    background-color: white;
+    max-width: 80%;
+    margin: 0 auto;
+    border-radius: 32px 22px 9px 9px;
+-moz-border-radius: 32px 22px 9px 9px;
+-webkit-border-radius: 32px 22px 9px 9px;
+border: 0px none #d4cdd4;
+-webkit-box-shadow: -1px -9px 23px -4px rgba(50,72,217,1);
+-moz-box-shadow: -1px -9px 23px -4px rgba(50,72,217,1);
+box-shadow: -1px -9px 23px -4px rgba(50,72,217,1);}
+p {
+    font-size: 2rem;
+}
+h1, p {
+    text-align: center;
+}
+form {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 4rem;
+    background: white;
+    margin-bottom: 3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 32px 22px 9px 9px;
+    -moz-border-radius: 32px 22px 9px 9px;
+    -webkit-border-radius: 32px 22px 9px 9px;
+    border: 0px none #d4cdd4;
+
+}
+select{
+border: 2px dotted rgb(68, 104, 158) ;
+text-align: center;
+}
+select:hover{
+    background-color: rgb(236, 229, 229)
+}
+label {
+    text-align: center;
+    font-weight: 1000;
+    font-size: 1.7rem;
+}
+
+#app p{
+    text-align: left!important;
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#resultado p {
+    padding: 1rem;
+    width: 90%;
+    margin: 30px auto;
+    border-bottom: .4px solid #1f1f1e;
+    display: block;
+    border-radius: 10px;
+}
+#resultado p span {
+    font-weight: bold;
+}
+#resultado p:last-of-type{
+    border: none;
+}
+.alerta {
+    padding: 1rem;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    font-size: 2rem;
+}
+.error {
+    background: rgb(190, 21, 52);
+    background: linear-gradient(90deg, rgba(226, 17, 55, 0.856) 55%, rgba(226, 16, 16, 0.63) 97%, rgba(196, 17, 59, 0.251) 99%);
+
+    font-size: 2.4rem;
+    letter-spacing: .6px;
+    
+}
+
+.sitio-web  {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    display: block;
+    font-size: 4rem;
+    max-width: 90%;
+    margin: 2rem auto;
+    text-decoration: none;
+}
+.sitio-web:hover {
+    color: rgb(22, 54, 160);
+}
+
+.resultado {
+    margin: 20px auto;
+    width: 25rem;
+    padding: 2px;
+    border-radius: 10px;
+    background: rgba(210,255,82,1);
+    background: -moz-linear-gradient(left, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(210,255,82,1)), color-stop(100%, rgba(145,232,66,1)));
+    background: -webkit-linear-gradient(left, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 100%);
+    background: -o-linear-gradient(left, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 100%);
+    background: -ms-linear-gradient(left, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 100%);
+    background: linear-gradient(to right, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', endColorstr='#91e842', GradientType=1 );
+}
