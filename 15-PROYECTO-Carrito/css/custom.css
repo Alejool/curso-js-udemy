@@ -2,7 +2,14 @@ html {
     font-size: 62.5%;
 }
 body {
-    background-color: #f5f3f3
+    background: rgba(226,226,226,1);
+background: -moz-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 2%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(226,226,226,1)), color-stop(2%, rgba(219,219,219,1)), color-stop(51%, rgba(209,209,209,1)), color-stop(100%, rgba(254,254,254,1)));
+background: -webkit-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 2%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: -o-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 2%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: -ms-radial-gradient(center, ellipse cover, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 2%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: radial-gradient(ellipse at center, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 2%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe', GradientType=1 );
 }
 h1 {
     text-align: center;
@@ -19,25 +26,34 @@ header {
     background: white;
     text-align: center;
 }
+ul {
+    list-style: none;
+} 
 @media (min-width: 750px) {
     header {
         text-align: left;
     }
 }
+
+#vaciar-carrito {
+    background-color: rgba(158, 145, 145, 0.795);
+    font-weight: 1000;
+}
+#vaciar-carrito:hover {
+    font-size: 1.5rem;
+}
 .borrar-curso {
     background-color: red;
-    border-radius: 50%;
+    border-radius: 10%;
     padding: 5px 10px;
     text-decoration: none;
     color: white;
     font-weight: bold;
 }
 
-ul {
-    list-style: none;
-}
+
 #hero {
-    background-image:url(../img/hero.jpg);
+    background-image:url(https://vilmanunez.com/wp-content/uploads/2020/03/Los-6-mejores-cursos-gratuitos.jpg);
     height: 350px;
     background-size: cover;
 }
@@ -46,6 +62,7 @@ ul {
 }
 .submenu {
     position: relative;
+    
 }
 
 .submenu #carrito{
@@ -180,3 +197,5 @@ display: block;
 margin-bottom: 10px;
 text-decoration: none;
 }
+
+
