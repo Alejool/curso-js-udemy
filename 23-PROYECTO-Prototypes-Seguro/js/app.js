@@ -47,15 +47,21 @@ Seguro.prototype.cotizacion= function(){
 
 }
 
+const interfaz= new Interfaz(); 
 
-Interfaz.prototype. content_delete = (element) => { while(element.lastchild) element .lastchild.renove() }
 
 function Interfaz(){}
 
 //prototype
-
-Interfaz.prototype.mostrarSeguro=(seguro, total)=>{
+Interfaz.prototype.ocultarBoton=()=>{
   
+}
+Interfaz.prototype.mostrarSeguro=(seguro, total)=>{
+  const div=document.createElement('DIV');
+  const boton=document.querySelector('button');
+  const resultado=document.querySelector('#resultado');
+  const spinner=document.querySelector('#cargando');
+
  const {marca, year, tipo}=seguro;
  let marcaT;
   switch(marca){
@@ -73,7 +79,7 @@ Interfaz.prototype.mostrarSeguro=(seguro, total)=>{
       break;
   }
    
-  const div=document.createElement('DIV');
+  
   div.classList.add('m-10');
   div.innerHTML=`
 
@@ -83,12 +89,12 @@ Interfaz.prototype.mostrarSeguro=(seguro, total)=>{
   <p class="font-bold "> Seguro: <span class="font-normal">  ${tipo} </span> </p>
 
    <p class="text-2xl font-bold mt-5"> Total: <span class="font-normal"> $ ${total} </span> </p>
-  `
-  const resultado=document.querySelector('#resultado');
-  const spinner=document.querySelector('#cargando');
-
+  `;
+         
+  boton.style.display='none';
   spinner.style.display='block';
    setTimeout(()=>{
+    boton.style.display='block';
    spinner.style.display='none';
    resultado.appendChild(div)
   }, 2000)
@@ -112,6 +118,12 @@ for(let i=max; i>=min; i--){
 }
 
 Interfaz.prototype.mostrarAlerta=(mensaje, tipo)=>{
+ 
+  const resultados=document.querySelector('#resultado ');
+  while(resultados.firstChild){
+    resultados.firstChild.remove();
+  }
+  
   const mensajes = document.createElement("P")
   const resultado=document.querySelector('#resultado');
 
@@ -130,8 +142,6 @@ Interfaz.prototype.mostrarAlerta=(mensaje, tipo)=>{
    mensajes.remove();
   }, 2000)
 }
-
-const interfaz= new Interfaz(); 
 
 
 eventListener();
@@ -169,10 +179,7 @@ function validacion(e){
     interfaz.mostrarAlerta(mensaje, 'correcto');
 
   // ocultar resultados
- const resultados=document.querySelector('#resultado div');
-  if(resultados!== null){
-    resultados.remove();
-  }
+
 
 
   //instanciar el seguro;
