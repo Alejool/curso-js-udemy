@@ -37,7 +37,7 @@ Seguro.prototype.cotizacion= function(){
     cantidad-=((añoModelo*3)*cantidad)/100;
   
     //tipo de seguro
-    if(this.seguro==='completo'){
+    if(this.tipo==='completo'){
       cantidad*=1.50;
     }else {
       cantidad*=1.30;
