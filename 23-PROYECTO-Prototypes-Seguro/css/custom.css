@@ -17,7 +17,7 @@ label {
 }
 
 fieldset {
-  margin-top: 5rem;
+  margin-top: 2rem;
 }
 
 .opcion{
@@ -30,23 +30,34 @@ fieldset {
     padding: 15px;
 }
 .error {
+  font-size: .9rem;
+  font-weight: 700;
+  border-radius: 5px;
     background-color: #FBE9E7;
     border: 1px solid #F4511E;
-    padding: 10px;
+    padding: 5px;
     margin-bottom: 20px;
     text-align: center;
-    color: #F4511E;
+    color: #af3610;
+    margin-top:3rem;
+   
 }
 .correcto {
+  font-weight: 500;
+  border-radius: 5px;
     background-color: rgb(211, 249, 187);
     border: 1px solid rgb(50, 167, 0);
-    padding: 10px;
+    padding: 4px;
     margin-bottom: 20px;
+    margin-top: 3rem;
     text-align: center;
     color: rgb(4, 150, 50);
+   
 }
 .error p {
+
     margin:0;
+    
 }
 #contenido {
    border-radius: 20px 20px 10px 10px;
@@ -70,15 +81,18 @@ fieldset {
     margin-bottom: 40px;
 }
 #resultado div {
-    border: 1px solid #26C6DA;
+    border: 1px solid #20b5c9;
     text-align: center;
     padding: 0  0 20px 0;
+    border-radius: 12px;
 }
 #resultado div p {
     margin-bottom: 0;
+    
 }
 #resultado div p.header {
-    background-color: #26C6DA;
+  border-radius: 10px 10px 0 0;
+    background-color: #2bb9a6;
     margin-bottom: 10px;
     color:white;
     padding: 10px;
@@ -87,11 +101,9 @@ fieldset {
 }
 
 .spinner {
-    margin: 100px auto;
+  margin:25px auto 10px auto;
     width: 50px;
-    height: 40px;
-    text-align: center;
-    font-size: 10px;
+    height: 45px; 
   }
   
   .spinner > div {
