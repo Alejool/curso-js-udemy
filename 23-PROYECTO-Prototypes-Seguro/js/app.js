@@ -53,10 +53,9 @@ const interfaz= new Interfaz();
 function Interfaz(){}
 
 //prototype
-Interfaz.prototype.ocultarBoton=()=>{
-  
-}
+
 Interfaz.prototype.mostrarSeguro=(seguro, total)=>{
+  
   const div=document.createElement('DIV');
   const boton=document.querySelector('button');
   const resultado=document.querySelector('#resultado');
