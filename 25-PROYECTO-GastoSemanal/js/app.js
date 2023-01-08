@@ -5,7 +5,7 @@
 const form=document.querySelector('#agregar-gasto');
 const listGastos=document.querySelector('#gastos ul');
 const presupuestoI=document.querySelector('#presupuesto #total');
-
+const restante=document.querySelector("#restante")
 
 
 //  eventos
@@ -71,12 +71,18 @@ class Interfaz{
       btnBorrar.innerHTML='Delete &times'
       gastosL.appendChild(btnBorrar)
 
+      btnBorrar.onclick=()=>{
+         eliminarGasto(id);
+      }
+
       listGastos.appendChild(gastosL);
 
    });
     
 
   }
+
+  
   limpiarLista(){
     
     while(listGastos.firstChild){
@@ -101,7 +107,12 @@ class Interfaz{
 
       restanteP.classList.remove("alert-danger");
       restanteP.classList.add("alert-warning");
+    }else {
+      restanteP.classList.remove("alert-danger","alert-warning" );
+      restanteP.classList.add("alert-sucess");
+
     }
+    form.querySelector('button').disabled=false;
 
     if (restante<=0){
       interfaz.mostrarAlerta('superaste tus tope de presupuesto', 'error');
@@ -120,16 +131,21 @@ class presupesto{
     this.restante=Number(presupesto);
     this.gastos=[];
   }
+  
   nuevoGasto(gasto){
     this.gastos=[gasto,...this.gastos];
     this.actualizarRestante();
   }
+
   actualizarRestante(){
     const gastado=this.gastos.reduce((total, gasto)=> Number(total+gasto.cantidad) , 0);
-    
     this.restante=this.presupuesto-gastado;
+  }
 
-
+  reembolso(id){
+    this.gastos=this.gastos.filter(gasto=>gasto.id!==id);
+    this.actualizarRestante();
+    
   }
 }
 
@@ -182,6 +198,20 @@ function validarGasto(e){
   interfaz.actualizarRestante(restante);
 
   // colores restante
+  interfaz.comprobarPresupuesto(TotalPresupuesto);
+
+}
+
+function eliminarGasto(id){
+  TotalPresupuesto.reembolso(id);
+
+
+  const{ restante, gastos}= TotalPresupuesto;  
+
+  interfaz.listaGastos(gastos);
+  
+  
+  interfaz.actualizarRestante(restante);
   interfaz.comprobarPresupuesto(TotalPresupuesto);
 
 }
