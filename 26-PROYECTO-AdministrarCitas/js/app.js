@@ -10,6 +10,28 @@ const inputSintomas=document.querySelector('#sintomas');
 const form=document.querySelector('#nueva-cita');
 const citasContenedor=document.querySelector('#citas');
 let editando;
+let Db;
+
+window.onload=()=>{
+
+  eventenListeners();
+  crearDB();
+}
+
+
+function eventenListeners(){
+  mascota.addEventListener('input', citaDatos);
+  propietario.addEventListener('input',citaDatos );
+  telefono.addEventListener('input',citaDatos );
+  fecha.addEventListener('input',citaDatos );
+  hora.addEventListener('input',citaDatos );
+  sintomas.addEventListener('input',citaDatos );
+
+  form.addEventListener('submit', citaNueva);
+
+}
+
+
 
 
  class Citas{
@@ -55,11 +77,27 @@ class Interfaz {
 
 
   //  {citas}, crea destructing de citas a las citas 
-  mostrarCitas({citas}){
+  mostrarCitas(){
     this.limpiarHtml();
 
-    citas.forEach(cita=>{
-      const {mascota, propietario, telefono, fecha, hora, sintomas, id}=cita;
+    const objectStore=Db.transaction('citas-Veterinaria').objectStore('citas-Veterinaria');
+
+    const fntextoHeading=this.textoHeading;
+
+    objectStore.openCursor().onsuccess= function(e){
+      const cursor=e.target.result;
+
+      const total=objectStore.count();
+
+      total.onsuccess=function(){
+        fntextoHeading(total.result);
+
+      }
+
+      if(cursor){
+        
+
+      const {mascota, propietario, telefono, fecha, hora, sintomas, id}=cursor.value;
 
       const divCita=document.createElement('DIV');
       divCita.classList.add('cita', 'p-3', 'text-center');
@@ -105,6 +143,7 @@ class Interfaz {
       const btnEditar=document.createElement('BUTTON');
       btnEditar.classList.add('btn', 'btn-info','mr-2');
       btnEditar.innerHTML='editar <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /> </svg> ';
+      const cita=cursor.value;
       btnEditar.onclick=()=>{
         editarCita(cita);
       }
@@ -119,13 +158,25 @@ class Interfaz {
       divCita.appendChild(btnEditar);
       citasContenedor.appendChild(divCita);
 
+      //  ir al siguiente elemento
+      cursor.continue();
+    
+      }
 
-    })
-
+    }
   }
   limpiarHtml(){
     while(citasContenedor.firstChild){
       citasContenedor.firstChild.remove();
+    }
+  }
+  textoHeading(resultado){
+    console.log(resultado);
+    const administra=document.querySelector('#administra')
+    if(resultado>0){
+      administra.textContent='Administra tus citas YA'
+    }else {
+      administra.textContent='Inicia por crear una nueva cita'
     }
   }
  
@@ -136,18 +187,8 @@ const interfaz=new Interfaz();
 const citasAdministradas=new Citas();
 
 
-eventenListeners();
-function eventenListeners(){
-  mascota.addEventListener('input', citaDatos);
-  propietario.addEventListener('input',citaDatos );
-  telefono.addEventListener('input',citaDatos );
-  fecha.addEventListener('input',citaDatos );
-  hora.addEventListener('input',citaDatos );
-  sintomas.addEventListener('input',citaDatos );
 
-  form.addEventListener('submit', citaNueva);
 
-}
 //  creamos un objeto para manejar los eventos de todos los campos
 const citaObj={
   mascota:'',
@@ -174,16 +215,31 @@ function citaNueva(e){
 
 
   if(editando){
-    interfaz.mostrarAlerta('Editado correctamente');
+   
 
     // metodo de 
     citasAdministradas.editarCita({...citaObj});
 
-    //cambiar el texto de boton al original
-  form.querySelector('button').textContent= 'crear Cita';
+   
 
+  //   Editar en db
+
+  const transaction= Db.transaction(['citas-Veterinaria'], 'readwrite');
+  const objectStore=transaction.objectStore('citas-Veterinaria');
+  objectStore.put(citaObj);
+
+  transaction.oncomplete=()=>{
+
+  interfaz.mostrarAlerta('Editado correctamente');
+     //cambiar el texto de boton al original
+  form.querySelector('button').textContent= 'crear Cita';
   //quitar modo edición
   editando=false;
+  }
+  transaction.onerror=()=>{
+    console.log('error');
+  }
+
   }
   else{
     //  generar un id unico PARA identificarlo
@@ -192,8 +248,18 @@ function citaNueva(e){
     // agregar a las citas
     citasAdministradas.agregarCita({...citaObj});
 
-    // mensaje
+    //  insertar en el indexdb
+    const transaction= Db.transaction(['citas-Veterinaria'], 'readwrite');
+
+    const objectStore=transaction.objectStore('citas-Veterinaria');
+    objectStore.add(citaObj);
+
+    transaction.oncomplete=function(){
+       // mensaje
     interfaz.mostrarAlerta('Agregado correctamente');
+    }
+
+   
   }
 
  
@@ -214,10 +280,25 @@ function reiniciarObject(){
 
 }
 
-function eliminarCita(idCita){
-  citasAdministradas.eliminarCita(idCita);
-  interfaz.mostrarAlerta('cita eliminada con exito')
-  interfaz.mostrarCitas(citasAdministradas);
+function eliminarCita(id){
+
+  const transaction=Db.transaction(['citas-Veterinaria'], 'readwrite');
+  const objectStore=transaction.objectStore('citas-Veterinaria');
+  objectStore.delete(id); 
+  
+
+  transaction.oncomplete=()=>{
+    interfaz.mostrarAlerta('cita eliminada con exito');
+    interfaz.mostrarCitas();
+  }
+
+  transaction.onerror=()=>{
+    console.log('hubo un error');
+  }
+
+  
+  
+  
 }
 
 function editarCita(cita){
@@ -242,6 +323,49 @@ function editarCita(cita){
   form.querySelector('button').textContent= 'Actualizar';
   
  editando=true;
+
+}
+
+function crearDB(){
+  //crerar la base de datos
+  const crear= window.indexedDB.open('citas-Veterinaria', 1);
+
+
+  //  si hay error
+crear.onerror=function(){
+  console.log('hubo un error');
+}
+
+crear.onsuccess= function(){
+  console.log('todo correcto');
+
+  Db=crear.result;
+  interfaz.mostrarCitas();
+
+}
+
+//  definir el schema
+crear.onupgradeneeded= function(e){
+  const db=e.target.result;
+
+  const objectStore=db.createObjectStore('citas-Veterinaria',{
+    keyPath: 'id',
+    autoIncrement:true
+  });
+
+  //  DEFINIR COLUNMAS
+    objectStore.createIndex('mascota', 'mascota', {unique:false});
+    objectStore.createIndex('propietario', 'propietario', {unique:false});
+    objectStore.createIndex('telefono', 'telefono', {unique:false});
+    objectStore.createIndex('fecha', 'fecha', {unique:false});
+    objectStore.createIndex('hora', 'hora', {unique:false});
+    objectStore.createIndex('sintomas', 'sintomas', {unique:false});
+    objectStore.createIndex('id', 'id', {unique:true});
+
+    console.log('CREADA Y LISTA ');
+}
+
+
 
 }
 
